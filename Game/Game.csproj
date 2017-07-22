@@ -166,6 +166,9 @@
     <Compile Include="Assets\PostProcessing\Runtime\Utils\RenderTextureFactory.cs" />
     <Compile Include="Assets\PostProcessing\Utilities\CustomMotionTexture\ExampleWheelController.cs" />
     <Compile Include="Assets\Scripts\CityGenerator.cs" />
+    <Compile Include="Assets\Scripts\CityMesh.cs" />
+    <Compile Include="Assets\Scripts\Lightning.cs" />
+    <Compile Include="Assets\Scripts\Tuple.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
