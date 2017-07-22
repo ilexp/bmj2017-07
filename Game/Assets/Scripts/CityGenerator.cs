@@ -8,9 +8,11 @@ namespace Game
 {
     public class CityGenerator
     {
-        public string Seed { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public string Seed { get; private set; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+
+
         public CityGenerator(string seed, int width, int height)
         {
             Seed = seed;
@@ -36,8 +38,7 @@ namespace Game
         {
 
             var map = new int[Width, Height];
-            var mapLength = Width * Height;
-
+            
             map = FillMapWithBackGround(map, houseValueLowerBound, houseValueUpperBound);
 
             map = CreatePath(map, Width / 2, Height / 2, streetValue);
