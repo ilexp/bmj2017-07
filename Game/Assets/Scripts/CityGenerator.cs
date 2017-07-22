@@ -8,18 +8,27 @@ namespace Game
 {
     public class CityGenerator : MonoBehaviour
     {
-        private void CreateCube(Random rnd)
+        [SerializeField] private Transform tilemap;
+        [SerializeField] private GameObject[] tiles;
+
+
+        private void CreateTile(int index, Vector2 pos)
         {
-            GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            obj.transform.position = new Vector3(rnd.Next(-5, 5), rnd.Next(-5, 5), rnd.Next(-5, 5));
+            GameObject prefab = tiles[index];
+            GameObject obj = GameObject.Instantiate(prefab, tilemap);
+            obj.transform.position = new Vector3(pos.x, 0.0f, pos.y);
         }
+
 
         private void Start()
         {
             Random rnd = new Random();
-            for (int i = 0; i < 100; i++)
+            for (int y = 0; y < 100; y++)
             {
-                this.CreateCube(rnd);
+                for (int x = 0; x < 100; x++)
+                {
+                    this.CreateTile(rnd.Next(tiles.Length), new Vector2(x, y));
+                }
             }
         }
     }
