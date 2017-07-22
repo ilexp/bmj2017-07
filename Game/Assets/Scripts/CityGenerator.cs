@@ -18,34 +18,34 @@ namespace Game
             Height = height;
         }
 
-        public int[] GenerateMap()
+        public int[] GenerateMap(int streetValue, int houseValueLowerBound, int houseValueUpperBound)
         {
 
-            var map = GenerateMapFromSeed();
+            var map = GenerateMapFromSeed(streetValue, houseValueLowerBound, houseValueUpperBound);
             var result = new int[map.GetLength(1) * map.GetLength(0)];
             for (int y = 0; y < map.GetLength(1); y++)
             {
                 for (int x = 0; x < map.GetLength(0); x++)
                 {
-                    result[x + y * map.GetLength(0)] = map[x,y];
+                    result[x + y * map.GetLength(0)] = map[x, y];
                 }
             }
             return result;
         }
-        private byte[,] GenerateMapFromSeed()
+        private int[,] GenerateMapFromSeed(int streetValue, int houseValueLowerBound, int houseValueUpperBound)
         {
 
-            var map = new byte[Width, Height];
+            var map = new int[Width, Height];
             var mapLength = Width * Height;
 
-            //map = FillMapWithBackGround(map);
+            map = FillMapWithBackGround(map, houseValueLowerBound, houseValueUpperBound);
 
-            map = CreatePath(map, Width / 2, Height / 2);
+            map = CreatePath(map, Width / 2, Height / 2, streetValue);
 
             return map;
         }
 
-        private byte[,] CreatePath(byte[,] map, int startX, int startY)
+        private int[,] CreatePath(int[,] map, int startX, int startY, int streetValue)
         {
 
             var punctuation = Seed.Where(Char.IsPunctuation).Distinct().ToArray();
@@ -55,16 +55,18 @@ namespace Game
 
             foreach (var word in words)
             {
-                currentCursor = DrawThePath(map, currentCursor, word);
+                currentCursor = DrawThePath(map, currentCursor, word,streetValue);
 
             }
 
             return map;
         }
 
-        private Tuple DrawThePath(byte[,] map, Tuple start, string word)
+        private Tuple DrawThePath(int[,] map, Tuple start, string word, int streetColor)
         {
-            var color = ChooseColor(word);
+//            var color = ChooseColor(word);
+
+            var color =streetColor;
 
             var direction = ChooseDirection(word);
             var length = ChooseLength(word);
@@ -74,7 +76,7 @@ namespace Game
             return endCursor;
         }
 
-        private Tuple DrawLine(byte[,] map, Tuple start, byte color, byte direction, int length)
+        private Tuple DrawLine(int[,] map, Tuple start, int color, byte direction, int length)
         {
             int x = start.Item1;
             int y = start.Item2;
@@ -220,13 +222,15 @@ namespace Game
             return 1;
         }
 
-        private byte[,] FillMapWithBackGround(byte[,] map)
+        private int[,] FillMapWithBackGround(int[,] map, int houseValueLowerBound, int houseValueUpperBound)
         {
+            var r = new Random();
             for (int x = 0; x < map.GetLength(0); x++)
             {
                 for (int y = 0; y < map.GetLength(1); y++)
                 {
-                    map[x, y] = 0;
+                    var tileValue = r.Next(houseValueLowerBound, houseValueUpperBound + 1);
+                    map[x, y] = tileValue;
                 }
             }
             return map;

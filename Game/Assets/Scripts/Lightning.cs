@@ -14,7 +14,7 @@ namespace Game
         private float flashAlpha;
 
 
-        private void Flash()
+        public void Flash()
         {
             this.flashAlpha = Mathf.Clamp01(this.flashAlpha + 1.0f);
             this.flashRotation = Quaternion.Euler(0.15f * Random.rotation.eulerAngles);
