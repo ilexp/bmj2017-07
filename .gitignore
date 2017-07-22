@@ -4,3 +4,5 @@ Game/Game.sln
 Game/Game.CSharp.csproj
 Game/.vs/Game/v14/.suo
 Game/Game.CSharp.Editor.csproj
+Game/Game.CSharp.Editor.Plugins.csproj
+Game/Game.CSharp.Plugins.csproj
