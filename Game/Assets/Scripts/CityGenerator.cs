@@ -84,7 +84,7 @@ namespace Game
             Random rnd = new Random();
 
             List<GameObject> tiles = new List<GameObject>();
-            Vector2 baseOffset = new Vector2(50, 50);
+            Vector2 baseOffset = new Vector2(-50, -50);
             for (int y = 0; y < 100; y++)
             {
                 for (int x = 0; x < 100; x++)
