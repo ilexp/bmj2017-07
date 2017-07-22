@@ -8,9 +8,11 @@ namespace Game
 {
     public class CityGenerator
     {
-        public string Seed { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public string Seed { get; private set; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+
+
         public CityGenerator(string seed, int width, int height)
         {
             Seed = seed;
@@ -36,8 +38,7 @@ namespace Game
         {
 
             var map = new int[Width, Height];
-            var mapLength = Width * Height;
-
+            
             map = FillMapWithBackGround(map, houseValueLowerBound, houseValueUpperBound);
 
             map = CreatePath(map, Width / 2, Height / 2, streetValue);
@@ -64,7 +65,7 @@ namespace Game
 
         private Tuple DrawThePath(int[,] map, Tuple start, string word, int streetColor)
         {
-            //            var color = ChooseColor(word);
+            //var color = ChooseColor(word);
 
             var color = streetColor;
 
@@ -90,12 +91,8 @@ namespace Game
                     for (counter = 0; counter <= length; counter++)
                     {
                         y--;
-                        x = BorderControllWidth(x);
+                        map = SetColorOnMap(map, x, y, color);
 
-                        y = BorderControllHeight(y);
-
-
-                        map[x, y] = color;
                     }
 
                     break;
@@ -104,11 +101,7 @@ namespace Game
                     for (counter = 0; counter <= length; counter++)
                     {
                         x--;
-                        x = BorderControllWidth(x);
-
-                        y = BorderControllHeight(y);
-
-                        map[x, y] = color;
+                        map = SetColorOnMap(map, x, y, color);
                     }
 
                     break;
@@ -118,11 +111,7 @@ namespace Game
                     for (counter = 0; counter <= length; counter++)
                     {
                         y++;
-                        x = BorderControllWidth(x);
-
-                        y = BorderControllHeight(y);
-
-                        map[x, y] = color;
+                        map = SetColorOnMap(map, x, y, color);
                     }
 
                     break;
@@ -131,15 +120,10 @@ namespace Game
                     for (counter = 0; counter <= length; counter++)
                     {
                         x++;
-                        x = BorderControllWidth(x);
-
-                        y = BorderControllHeight(y);
-
-                        map[x, y] = color;
+                        map = SetColorOnMap(map, x, y, color);
                     }
 
                     break;
-
 
                 default:
                     UnityEngine.Debug.LogFormat("Wie auch immer, modulo4 sollte keine Zahl größer 3 ausgeben: {0}", direction);
@@ -148,11 +132,21 @@ namespace Game
             return new Tuple(x, y);
         }
 
+        private int[,] SetColorOnMap(int[,] map, int x, int y, int color)
+        {
+            x = BorderControllWidth(x);
+
+            y = BorderControllHeight(y);
+
+            map[x, y] = color;
+            return map;
+        }
+
         private int BorderControllHeight(int y)
         {
             if (y < 0)
             {
-                y = Height-1;
+                y = Height - 1;
             }
             if (y >= Height)
             {
@@ -166,11 +160,11 @@ namespace Game
 
             if (x < 0)
             {
-                x = Width-1;
+                x = Width - 1;
             }
             if (x >= Width)
             {
-                x =0;
+                x = 0;
             }
             return x;
         }
