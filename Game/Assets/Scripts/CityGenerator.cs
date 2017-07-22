@@ -87,7 +87,6 @@ namespace Game
             {
                 //hoch
                 case 0:
-                    counter = 0;
                     for (counter = 0; counter <= length; counter++)
                     {
                         y--;
@@ -97,7 +96,6 @@ namespace Game
 
                     break;
                 case 1:
-                    counter = 0;
                     for (counter = 0; counter <= length; counter++)
                     {
                         x--;
@@ -107,7 +105,6 @@ namespace Game
                     break;
 
                 case 2:
-                    counter = 0;
                     for (counter = 0; counter <= length; counter++)
                     {
                         y++;
@@ -116,7 +113,6 @@ namespace Game
 
                     break;
                 case 3:
-                    counter = 0;
                     for (counter = 0; counter <= length; counter++)
                     {
                         x++;
