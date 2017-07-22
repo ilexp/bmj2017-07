@@ -38,7 +38,7 @@ namespace Game
         {
 
             var map = new int[Width, Height];
-            
+
             map = FillMapWithBackGround(map, houseValueLowerBound, houseValueUpperBound);
 
             map = CreatePath(map, Width / 2, Height / 2, streetValue);
@@ -91,7 +91,7 @@ namespace Game
                     for (counter = 0; counter <= length; counter++)
                     {
                         y--;
-                        map = SetColorOnMap(map, x, y, color);
+                        SetColorOnMap(map, x, y, color);
 
                     }
 
@@ -101,7 +101,7 @@ namespace Game
                     for (counter = 0; counter <= length; counter++)
                     {
                         x--;
-                        map = SetColorOnMap(map, x, y, color);
+                        SetColorOnMap(map, x, y, color);
                     }
 
                     break;
@@ -111,7 +111,7 @@ namespace Game
                     for (counter = 0; counter <= length; counter++)
                     {
                         y++;
-                        map = SetColorOnMap(map, x, y, color);
+                        SetColorOnMap(map, x, y, color);
                     }
 
                     break;
@@ -120,9 +120,8 @@ namespace Game
                     for (counter = 0; counter <= length; counter++)
                     {
                         x++;
-                        map = SetColorOnMap(map, x, y, color);
+                        SetColorOnMap(map, x, y, color);
                     }
-
                     break;
 
                 default:
@@ -148,9 +147,13 @@ namespace Game
             {
                 y = Height - 1;
             }
-            if (y >= Height)
+            else
             {
-                y = 0;
+                if (y >= Height)
+                {
+                    y = 0;
+                }
+
             }
             return y;
         }
@@ -161,10 +164,15 @@ namespace Game
             if (x < 0)
             {
                 x = Width - 1;
+
             }
-            if (x >= Width)
+            else
             {
-                x = 0;
+                if (x >= Width)
+                {
+                    x = 0;
+                }
+
             }
             return x;
         }
