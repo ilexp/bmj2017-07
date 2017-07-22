@@ -1,102 +1,235 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using UnityEngine;
-
-using Random = System.Random;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
 
 namespace Game
 {
-    public class CityGenerator : MonoBehaviour
+    public class CityGenerator
     {
-        [SerializeField] private Material tileset;
-        [SerializeField] private Transform tilemap;
-        [SerializeField] private GameObject[] tilePrefabs;
-
-
-        private GameObject CreateTile(int index, Vector2 pos)
+        public string Seed { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public CityGenerator(string seed, int width, int height)
         {
-            GameObject prefab = tilePrefabs[index];
-            GameObject obj = GameObject.Instantiate(prefab, tilemap);
-            obj.transform.position = new Vector3(pos.x, 0.0f, pos.y);
-            return obj;
+            Seed = seed;
+            Width = width;
+            Height = height;
         }
-        private GameObject WrapUpTilemapMesh(CombineInstance[] combine)
+
+        public int[] GenerateMap()
         {
-            Mesh combinedMesh = new Mesh();
-            combinedMesh.CombineMeshes(combine);
 
-            GameObject obj = new GameObject("Tilemap",
-                typeof(MeshFilter),
-                typeof(MeshRenderer));
-            obj.transform.SetParent(tilemap, true);
-            MeshFilter filter = obj.GetComponent<MeshFilter>();
-            MeshRenderer renderer = obj.GetComponent<MeshRenderer>();
-
-            filter.mesh = combinedMesh;
-            renderer.sharedMaterial = this.tileset;
-
-            return obj;
-        }
-        private List<GameObject> CombineTilemap(List<GameObject> tiles)
-        {
-            List<GameObject> tilemapObj = new List<GameObject>();
-
-            int vertexCount = 0;
-            List<CombineInstance> combine = new List<CombineInstance>();
-            foreach (GameObject tile in tiles)
+            var map = GenerateMapFromSeed();
+            var result = new int[map.GetLength(1) * map.GetLength(0)];
+            for (int y = 0; y < map.GetLength(1); y++)
             {
-                foreach (MeshFilter meshFilter in tile.GetComponentsInChildren<MeshFilter>())
+                for (int x = 0; x < map.GetLength(0); x++)
                 {
-                    if (vertexCount + meshFilter.sharedMesh.vertexCount >= ushort.MaxValue)
+                    result[x + y * map.GetLength(0)] = map[x,y];
+                }
+            }
+            return result;
+        }
+        private byte[,] GenerateMapFromSeed()
+        {
+
+            var map = new byte[Width, Height];
+            var mapLength = Width * Height;
+
+            //map = FillMapWithBackGround(map);
+
+            map = CreatePath(map, Width / 2, Height / 2);
+
+            return map;
+        }
+
+        private byte[,] CreatePath(byte[,] map, int startX, int startY)
+        {
+
+            var punctuation = Seed.Where(Char.IsPunctuation).Distinct().ToArray();
+            var words = Seed.Split().Select(x => x.Trim(punctuation));
+
+            var currentCursor = new Tuple(startX, startY);
+
+            foreach (var word in words)
+            {
+                currentCursor = DrawThePath(map, currentCursor, word);
+
+            }
+
+            return map;
+        }
+
+        private Tuple DrawThePath(byte[,] map, Tuple start, string word)
+        {
+            var color = ChooseColor(word);
+
+            var direction = ChooseDirection(word);
+            var length = ChooseLength(word);
+
+            var endCursor = DrawLine(map, start, color, direction, length);
+
+            return endCursor;
+        }
+
+        private Tuple DrawLine(byte[,] map, Tuple start, byte color, byte direction, int length)
+        {
+            int x = start.Item1;
+            int y = start.Item2;
+            int counter = 0;
+            //horizontal
+            switch (direction)
+            {
+                //hoch
+                case 0:
+                    counter = 0;
+                    for (counter = 0; counter <= length; counter++)
                     {
-                        tilemapObj.Add(this.WrapUpTilemapMesh(combine.ToArray()));
-                        combine.Clear();
-                        vertexCount = 0;
+                        y--;
+                        if (x < 0)
+                        {
+                            x = 0;
+                        }
+                        if (x >= Width)
+                        {
+                            x = Width - 1;
+
+                        }
+                        if (y < 0)
+                        {
+                            y = 0;
+                        }
+                        if (y > Height)
+                        {
+                            y = Height;
+                        }
+
+                        map[x, y] = color;
                     }
 
-                    combine.Add(new CombineInstance
+                    break;
+                case 4:
+                    counter = 0;
+                    for (counter = 0; counter <= length; counter++)
                     {
-                        mesh = meshFilter.sharedMesh,
-                        transform = meshFilter.transform.localToWorldMatrix
-                    });
-                    vertexCount += meshFilter.sharedMesh.vertexCount;
-                }
+                        x--;
+                        if (x < 0)
+                        {
+                            x = 0;
+                        }
+                        if (x >= Width)
+                        {
+                            x = Width - 1;
+
+                        }
+                        if (y < 0)
+                        {
+                            y = 0;
+                        }
+                        if (y > Height)
+                        {
+                            y = Height;
+                        }
+
+                        map[x, y] = color;
+                    }
+
+                    break;
+
+                case 2:
+                    counter = 0;
+                    for (counter = 0; counter <= length; counter++)
+                    {
+                        y++;
+                        if (x < 0)
+                        {
+                            x = 0;
+                        }
+                        if (x >= Width)
+                        {
+                            x = Width - 1;
+
+                        }
+                        if (y < 0)
+                        {
+                            y = 0;
+                        }
+                        if (y > Height)
+                        {
+                            y = Height;
+                        }
+
+                        map[x, y] = color;
+                    }
+
+                    break;
+                case 6:
+                    counter = 0;
+                    for (counter = 0; counter <= length; counter++)
+                    {
+                        x++;
+                        if (x < 0)
+                        {
+                            x = 0;
+                        }
+                        if (x >= Width)
+                        {
+                            x = Width - 1;
+                        }
+                        if (y < 0)
+                        {
+                            y = 0;
+                        }
+                        if (y > Height)
+                        {
+                            y = Height;
+                        }
+
+                        map[x, y] = color;
+                    }
+
+                    break;
+
+
+                default:
+                    break;
             }
-
-            if (combine.Count > 0)
-            {
-                tilemapObj.Add(this.WrapUpTilemapMesh(combine.ToArray()));
-            }
-
-            StaticBatchingUtility.Combine(tilemapObj.ToArray(), this.tilemap.gameObject);
-
-            foreach (GameObject tile in tiles)
-            {
-                GameObject.Destroy(tile);
-            }
-
-            return tilemapObj;
+            return new Tuple(x, y);
         }
 
 
-        private void Awake()
-        {
-            Random rnd = new Random();
 
-            List<GameObject> tiles = new List<GameObject>();
-            Vector2 baseOffset = new Vector2(-50, -50);
-            for (int y = 0; y < 100; y++)
+        private int ChooseLength(string word)
+        {
+            return word.Length;
+        }
+
+        public byte ChooseDirection(string word)
+        {
+            var wordLength = word.Length;
+            var result = wordLength % 8;
+            Debug.WriteLine(word + " = " + wordLength + " = " + (byte)result);
+
+            return (byte)(result);
+        }
+
+        private byte ChooseColor(string word)
+        {
+            return 1;
+        }
+
+        private byte[,] FillMapWithBackGround(byte[,] map)
+        {
+            for (int x = 0; x < map.GetLength(0); x++)
             {
-                for (int x = 0; x < 100; x++)
+                for (int y = 0; y < map.GetLength(1); y++)
                 {
-                    GameObject tile = this.CreateTile(
-                        rnd.Next(this.tilePrefabs.Length),
-                        baseOffset + new Vector2(x, y));
-                    tiles.Add(tile);
+                    map[x, y] = 0;
                 }
             }
-
-            this.CombineTilemap(tiles);
+            return map;
         }
     }
 }

@@ -17,8 +17,8 @@ namespace Game
         private void Flash()
         {
             this.flashAlpha = Mathf.Clamp01(this.flashAlpha + 1.0f);
-            this.flashRotation = Quaternion.Euler(0.1f * Random.rotation.eulerAngles);
-            this.flashIntensity = Mathf.Max(this.flashIntensity, Random.Range(1.0f, 4.0f));
+            this.flashRotation = Quaternion.Euler(0.15f * Random.rotation.eulerAngles);
+            this.flashIntensity = Mathf.Max(this.flashIntensity, Random.Range(1.0f, 3.0f));
         }
 
         private void Awake()
@@ -31,7 +31,7 @@ namespace Game
             if (this.flashTimer <= 0.0f)
             {
                 this.Flash();
-                this.flashTimer += Random.Range(0.5f, 10.0f);
+                this.flashTimer += Mathf.Pow(2.0f, Random.Range(-1.0f, 4.0f));
             }
 
             if (this.flashAlpha > 0.0f)
