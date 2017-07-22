@@ -55,7 +55,7 @@ namespace Game
 
             foreach (var word in words)
             {
-                currentCursor = DrawThePath(map, currentCursor, word,streetValue);
+                currentCursor = DrawThePath(map, currentCursor, word, streetValue);
 
             }
 
@@ -64,9 +64,9 @@ namespace Game
 
         private Tuple DrawThePath(int[,] map, Tuple start, string word, int streetColor)
         {
-//            var color = ChooseColor(word);
+            //            var color = ChooseColor(word);
 
-            var color =streetColor;
+            var color = streetColor;
 
             var direction = ChooseDirection(word);
             var length = ChooseLength(word);
@@ -90,50 +90,23 @@ namespace Game
                     for (counter = 0; counter <= length; counter++)
                     {
                         y--;
-                        if (x < 0)
-                        {
-                            x = 0;
-                        }
-                        if (x >= Width)
-                        {
-                            x = Width - 1;
+                        x = BorderControllWidth(x);
 
-                        }
-                        if (y < 0)
-                        {
-                            y = 0;
-                        }
-                        if (y > Height)
-                        {
-                            y = Height;
-                        }
+                        y = BorderControllHeight(y);
+
 
                         map[x, y] = color;
                     }
 
                     break;
-                case 4:
+                case 1:
                     counter = 0;
                     for (counter = 0; counter <= length; counter++)
                     {
                         x--;
-                        if (x < 0)
-                        {
-                            x = 0;
-                        }
-                        if (x >= Width)
-                        {
-                            x = Width - 1;
+                        x = BorderControllWidth(x);
 
-                        }
-                        if (y < 0)
-                        {
-                            y = 0;
-                        }
-                        if (y > Height)
-                        {
-                            y = Height;
-                        }
+                        y = BorderControllHeight(y);
 
                         map[x, y] = color;
                     }
@@ -145,49 +118,22 @@ namespace Game
                     for (counter = 0; counter <= length; counter++)
                     {
                         y++;
-                        if (x < 0)
-                        {
-                            x = 0;
-                        }
-                        if (x >= Width)
-                        {
-                            x = Width - 1;
+                        x = BorderControllWidth(x);
 
-                        }
-                        if (y < 0)
-                        {
-                            y = 0;
-                        }
-                        if (y > Height)
-                        {
-                            y = Height;
-                        }
+                        y = BorderControllHeight(y);
 
                         map[x, y] = color;
                     }
 
                     break;
-                case 6:
+                case 3:
                     counter = 0;
                     for (counter = 0; counter <= length; counter++)
                     {
                         x++;
-                        if (x < 0)
-                        {
-                            x = 0;
-                        }
-                        if (x >= Width)
-                        {
-                            x = Width - 1;
-                        }
-                        if (y < 0)
-                        {
-                            y = 0;
-                        }
-                        if (y > Height)
-                        {
-                            y = Height;
-                        }
+                        x = BorderControllWidth(x);
+
+                        y = BorderControllHeight(y);
 
                         map[x, y] = color;
                     }
@@ -196,12 +142,38 @@ namespace Game
 
 
                 default:
+                    UnityEngine.Debug.LogFormat("Wie auch immer, modulo4 sollte keine Zahl größer 3 ausgeben: {0}", direction);
                     break;
             }
             return new Tuple(x, y);
         }
 
+        private int BorderControllHeight(int y)
+        {
+            if (y < 0)
+            {
+                y = Height-1;
+            }
+            if (y >= Height)
+            {
+                y = 0;
+            }
+            return y;
+        }
 
+        private int BorderControllWidth(int x)
+        {
+
+            if (x < 0)
+            {
+                x = Width-1;
+            }
+            if (x >= Width)
+            {
+                x =0;
+            }
+            return x;
+        }
 
         private int ChooseLength(string word)
         {
@@ -211,7 +183,7 @@ namespace Game
         public byte ChooseDirection(string word)
         {
             var wordLength = word.Length;
-            var result = wordLength % 8;
+            var result = wordLength % 4;
             Debug.WriteLine(word + " = " + wordLength + " = " + (byte)result);
 
             return (byte)(result);
@@ -230,7 +202,10 @@ namespace Game
                 for (int y = 0; y < map.GetLength(1); y++)
                 {
                     var tileValue = r.Next(houseValueLowerBound, houseValueUpperBound + 1);
+
                     map[x, y] = tileValue;
+                    //DEBUG
+                    //map[x, y] = 1;
                 }
             }
             return map;
