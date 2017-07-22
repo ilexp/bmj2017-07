@@ -90,7 +90,9 @@ namespace Game
                     for (counter = 0; counter <= length; counter++)
                     {
                         y--;
-                        SetColorOnMap(map, x, y, color);
+                        var t = SetColorOnMap(map, x, y, color);
+                        x = t.Item1;
+                        y = t.Item2;
 
                     }
 
@@ -99,7 +101,9 @@ namespace Game
                     for (counter = 0; counter <= length; counter++)
                     {
                         x--;
-                        SetColorOnMap(map, x, y, color);
+                        var t = SetColorOnMap(map, x, y, color);
+                        x = t.Item1;
+                        y = t.Item2;
                     }
 
                     break;
@@ -108,7 +112,9 @@ namespace Game
                     for (counter = 0; counter <= length; counter++)
                     {
                         y++;
-                        SetColorOnMap(map, x, y, color);
+                        var t = SetColorOnMap(map, x, y, color);
+                        x = t.Item1;
+                        y = t.Item2;
                     }
 
                     break;
@@ -116,7 +122,10 @@ namespace Game
                     for (counter = 0; counter <= length; counter++)
                     {
                         x++;
-                        SetColorOnMap(map, x, y, color);
+                        var t = SetColorOnMap(map, x, y, color);
+                        x = t.Item1;
+                        y = t.Item2;
+
                     }
                     break;
 
@@ -127,14 +136,14 @@ namespace Game
             return new Tuple(x, y);
         }
 
-        private int[,] SetColorOnMap(int[,] map, int x, int y, int color)
+        private Tuple SetColorOnMap(int[,] map,  int x, int y, int color)
         {
             x = BorderControllWidth(x);
 
             y = BorderControllHeight(y);
 
             map[x, y] = color;
-            return map;
+            return new Tuple(x,y);
         }
 
         private int BorderControllHeight(int y)
