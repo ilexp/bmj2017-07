@@ -286,10 +286,10 @@ MonoBehaviour:
       spectralTexture: {fileID: 0}
       intensity: 0.1
   grain:
-    m_Enabled: 0
+    m_Enabled: 1
     m_Settings:
       colored: 0
-      intensity: 0.15
+      intensity: 0.2
       size: 0.75
       luminanceContribution: 0.8
   vignette:
