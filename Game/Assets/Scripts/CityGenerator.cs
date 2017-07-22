@@ -68,6 +68,8 @@ namespace Game
                 tilemapObj.Add(this.WrapUpTilemapMesh(combine.ToArray()));
             }
 
+            StaticBatchingUtility.Combine(tilemapObj.ToArray(), this.tilemap.gameObject);
+
             foreach (GameObject tile in tiles)
             {
                 GameObject.Destroy(tile);
