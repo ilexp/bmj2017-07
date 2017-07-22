@@ -199,15 +199,21 @@ namespace Game
         private int[,] FillMapWithBackGround(int[,] map, int houseValueLowerBound, int houseValueUpperBound)
         {
             var r = new Random();
+            var c = 0;
             for (int x = 0; x < map.GetLength(0); x++)
             {
                 for (int y = 0; y < map.GetLength(1); y++)
                 {
+                    c++;
                     var tileValue = r.Next(houseValueLowerBound, houseValueUpperBound + 1);
 
                     map[x, y] = tileValue;
                     //DEBUG
                     //map[x, y] = 1;
+                    if (r.Next(1, 100) % 4 == 0)
+                    {
+                        map[x, y] = 0;
+                    }
                 }
             }
             return map;
