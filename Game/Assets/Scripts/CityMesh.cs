@@ -83,51 +83,60 @@ namespace Game
         {
             Random rnd = new Random();
 
-            string text = @"1. Und der Haifisch, der hat Zähne
-und die trägt er im Gesicht
-und Macheath, der hat ein Messer,
-doch das Messer sieht man nicht.
+            string text = @"Party girls don't get hurt, can't feel anything
+When will I learn? I push it down, push it down
+I'm the one for a good time call, phone's blowin' up
+They're ringin' my doorbell, I feel the love, feel the love
 
-2.Ach, es sind des Haifischs Flossen
-Rot, wenn dieser Blut vergiesst!
-Mackie Messer trägt 'nen Handschuh
-Drauf man keine Untat liest.
+One, two, three; one, two, three; drink
+One, two, three; one, two, three; drink
+One, two, three; one, two, three; drink
+Throw 'em back till I lose count
 
-3.An der Themse grünem Wasser
-Fallen plötzlich Leute um!
-Es ist weder Pest noch Cholera
-Doch es heisst: Maceath geht um.
+I'm gonna swing from the chandelier, from the chandelier
+I'm gonna live like tomorrow doesn't exist, like it doesn't exist
+I'm gonna fly like a bird through the night, feel my tears as they dry
+I'm gonna swing from the chandelier, from the chandelier
 
-4.An 'nem schönen blauen Sonntag
-Liegt ein toter Mann am Strand
-Und ein Mensch geht um die Ecke
-Den man Mackie Messer nennt.
+I am holding on for dear life
+Won't look down, won't open my eyes
+Keep my glass full until morning light
+'Cause I'm just holding on for tonight
 
 
-5.Und Schmul Meier bleibt verschwunden
-Und so mancher reiche Mann
-Und sein Geld hat Mackie Messer
-Dem man nichts beweisen kann.
+Help me, I'm holding on for dear life
+Won't look down, won't open my eyes
+Keep my glass full until morning light
+'Cause I'm just holding on for tonight, on for tonight
 
-6.Jenny Towler ward gefunden
-Mit 'nem Messer in der Brust
-Und am Kai geht Mackie Messer
-Der von allem nichts gewusst.
+Sun is up, I'm a mess
+Gotta get out now, gotta run from this
+Here comes the shame, here comes the shame
 
-7.Wo ist Alfons Glite, der Fuhrherr?
-Kommt das je ans Sonnenlicht?
-Wer es immer wissen könnte-
-Mackie Messer weiß es nicht.
+One, two, three; one, two, three; drink
+One, two, three; one, two, three; drink
+One, two, three; one, two, three; drink
+Throw 'em back till I lose count
 
-8.Und das grosse Feuer in Soho
-Sieben Kinder und ein Greis-
-In der Menge Mackie Messer, den
-Man nicht fragt und der nichts weiss.
+I'm gonna swing from the chandelier, from the chandelier
+I'm gonna live like tomorrow doesn't exist, like it doesn't exist
+I'm gonna fly like a bird through the night, feel my tears as they dry
+I'm gonna swing from the chandelier, from the chandelier
 
-9.Und die minderjährige Witwe
-deren Namen jeder weiss
-Wachte auf und war geschändet,
-Mackie, welches war dein Preis";
+I am holding on for dear life
+Won't look down, won't open my eyes
+Keep my glass full until morning light
+'Cause I'm just holding on for tonight
+
+Help me, I'm holding on for dear life
+Won't look down, won't open my eyes
+Keep my glass full until morning light
+'Cause I'm just holding on for tonight, on for tonight, on for tonight
+'Cause I'm just holding on for tonight
+Oh, I'm just holding on for tonight, on for tonight, on for tonight
+'Cause I'm just holding on for tonight
+'Cause I'm just holding on for tonight
+Oh, I'm just holding on for tonight, on for tonight, on for tonight";
             CityGenerator generator = new CityGenerator(text, 100, 100);
             int[] map = generator.GenerateMap(0,1,2);
 
