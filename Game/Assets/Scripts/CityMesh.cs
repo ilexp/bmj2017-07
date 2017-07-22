@@ -129,7 +129,7 @@ deren Namen jeder weiss
 Wachte auf und war geschändet,
 Mackie, welches war dein Preis";
             CityGenerator generator = new CityGenerator(text, 100, 100);
-            int[] map = generator.GenerateMap();
+            int[] map = generator.GenerateMap(0,1,2);
 
             List<GameObject> tiles = new List<GameObject>();
             Vector2 baseOffset = new Vector2(-50, -50);
